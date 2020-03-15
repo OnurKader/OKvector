@@ -1,5 +1,6 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
+
 #include <cstdint>
 #include <cstring>
 #include <initializer_list>
@@ -31,6 +32,10 @@ class vector
 
 	T& operator[](size_t index);
 	const T& operator[](size_t index) const;
+	T* begin();
+	T* end();
+	const T* begin() const;
+	const T* end() const;
 	T& front();
 	T& back();
 	const T& front() const;
@@ -44,6 +49,11 @@ class vector
 
 	void clear();
 	void reserve(size_t size);
+
+	// TODO insert
+	// TODO delete / erase
+	// TODO resize
+	// TODO comparison operators, maybe spaceship?
 };
 
 }	 // namespace OK

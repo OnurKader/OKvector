@@ -8,6 +8,7 @@ vector<T>::vector()
 	this->m_data = new T[this->m_capacity];
 }
 
+// FIXME check if T() works with all primitives
 template<typename T>
 vector<T>::vector(size_t size)
 {
@@ -100,6 +101,30 @@ const T& vector<T>::operator[](size_t index) const
 }
 
 template<typename T>
+T* vector<T>::begin()
+{
+	return this->m_data;
+}
+
+template<typename T>
+T* vector<T>::end()
+{
+	return this->m_data + this->m_size;
+}
+
+template<typename T>
+const T* vector<T>::begin() const
+{
+	return this->m_data;
+}
+
+template<typename T>
+const T* vector<T>::end() const
+{
+	return this->m_data + this->m_size;
+}
+
+template<typename T>
 T& vector<T>::front()
 {
 	return this->m_data[0];
@@ -163,19 +188,36 @@ void vector<T>::push_back(T&& val)
 	this->m_data[this->m_size++] = std::move(val);
 }
 
+// FIXME for builtins this doesn't work
+// find another way to do a pop for primitives
 template<typename T>
 void vector<T>::pop_back()
 {
+	this->m_data[--this->m_size].~T();
 }
 
+// FIXME also with primitives, I dunno how to make it now, it's getting late
 template<typename T>
 void vector<T>::clear()
 {
+	for(auto& elem: this->m_data)
+		elem.~T();
+	this->m_size = 0ULL;
+	// FIXME Maybe resize here?
 }
 
 template<typename T>
 void vector<T>::reserve(size_t size)
 {
+	if(size > this->m_capacity)
+	{
+		this->m_capacity = size;
+		// TODO this block is used like three times, function time??
+		T* temp = new T[this->m_capacity];
+		memcpy(temp, this->m_data, this->m_size * sizeof(T));
+		delete[] this->m_data;
+		this->m_data = temp;
+	}
 }
 
 }	 // namespace OK

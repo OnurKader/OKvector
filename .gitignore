@@ -2,4 +2,6 @@
 *.includes
 *.config*
 *.creator*
+*.o
+tags
 .*/
